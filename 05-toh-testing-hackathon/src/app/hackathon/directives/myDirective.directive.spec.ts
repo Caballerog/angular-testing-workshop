@@ -1,4 +1,4 @@
-import { NonNumericDirective } from './myDirective.directive';
+import { myDirective } from './myDirective.directive';
 // impor testing utilities (TestBed, ComponentFixture, async)
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 // import Component
