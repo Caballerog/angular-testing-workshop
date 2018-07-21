@@ -1,0 +1,1501 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Angular Testing - Workshop</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <!-- <link rel="stylesheet" href="css/theme/black.css"> -->
+    <link rel="stylesheet" href="css/theme/night.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai-sublime.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!-- QR Codes -->
+    <script type="text/javascript" src="qrcodejs/qrcode.js"></script>
+
+    <!-- Manual style tweaks -->
+    <style>
+        /* Columns */
+
+        /* ref: https://stackoverflow.com/questions/30861845/how-to-use-two-column-layout-with-reveal-js#answer-44392145 */
+
+        body {
+            background: url(images/fondo.png) no-repeat center center fixed;
+            background-size: cover;
+        }
+
+
+
+        .columns {
+            display: flex;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        .col-author {
+            flex: 0;
+        }
+
+        /* Colours */
+
+        .text-red {
+            color: #f00;
+        }
+
+        .text-green {
+            color: #0f0;
+        }
+
+        .text-yellow {
+            color: #ff0;
+        }
+
+        .text-blue {
+            color: #00f;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3,
+        .reveal h4,
+        .reveal h5,
+        .reveal h6 {
+            color: #212121;
+            font-family: 'Open Sans', sans-serif;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, .6);
+        }
+
+        .reveal {
+            color: #424242;
+        }
+
+        .text-primary {
+            color: #009688;
+            font-weight: 900 !important;
+        }
+
+        .reveal section img.no-border {
+            margin: 0px;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        img.author {
+            border-radius: 500px;
+            max-width: 200px;
+            font-weight: bolder;
+        }
+
+        ul.author-desc li {
+            list-style-type: none;
+            padding: 0em 0.8em;
+        }
+
+        /* External Link */
+
+        .prj-link {
+            font-family: monospace !important;
+            font-size: 0.9em !important;
+        }
+
+        code.language-javascript {
+            font-size: 1.3em !important;
+            line-height: 1.25em;
+        }
+
+        .prj-link::before {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            margin-right: 0.1em;
+            margin-left: 0.1em;
+            content: "";
+            background: url("images/micro-sd-card.png") no-repeat 0 0;
+            background-size: 100%;
+            vertical-align: middle;
+        }
+
+        /* QR Code */
+
+        .qrcode {
+            background-color: #fff;
+            padding: 1px 1px 1px 1px;
+            display: inline-block;
+        }
+
+        .half-size {
+            font-size: 0.5em !important;
+        }
+
+        /*         .height-code {
+            height: 2em;
+        } */
+
+        .reveal pre {
+            font-size: 0.35em;
+            margin: 0 auto;
+        }
+
+        .desktop-window .desktop-window-top #circles {
+            text-align: left;
+        }
+
+        .desktop-window {
+            background: #bfbfbf;
+            border: solid #bfbfbf;
+            border-top-width: 10px;
+            border-bottom-width: 4px;
+            border-radius: 10px;
+            margin: auto;
+        }
+
+        #circles {
+            margin-left: 5px;
+            margin-bottom: 5px;
+        }
+
+        .circle {
+            width: 12px;
+            height: 12px;
+            background: black;
+            border-radius: 100%;
+            display: inline-block;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        #c1 {
+            background: #F44336;
+        }
+
+        #c2 {
+            background: #FFEB3B;
+        }
+
+        #c3 {
+            background: #4CAF50;
+        }
+
+        .reveal section img {
+            margin: 15px 0px;
+            background: no-repeat;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Sections */
+
+        .title {
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+
+        .title h1 {
+            font-size: 6rem;
+        }
+
+        .title div:nth-child(2) {
+            display: flex;
+        }
+
+        .title img {
+            margin: 0 !important;
+        }
+
+        #cartel {
+            width: 100%;
+            height: 100%;
+        }
+
+        #cartel section {
+            width: 100%;
+            height: 100%;
+            background: url(images/cartel.png);
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- =================== INTRODUCTION =================== -->
+            <section>
+                <section>
+                    <h3>Angular Testing - Workshop</h3>
+
+                    <div class="stretch">
+                        <div class="stretch">
+                            <div class="columns">
+                                <div class="col">
+                                    <div class="columns" style="font-size:0.7em">
+                                        <div class="col-author">
+                                            <img class="no-border author" src="images/authors/CarlosCaballero.jpg">
+                                        </div>
+                                        <div class="col">
+                                            <ul class="author-desc text-primary">
+                                                <li>PhD. Computer Science</li>
+                                                <li>Computer Science Teacher</li>
+                                                <li>Book Writer</li>
+                                                <li>Linkedin:
+                                                    <a href="https://www.linkedin.com/in/carloscaballerogonzalez/">https://www.linkedin.com/in/carloscaballerogonzalez/</a>
+                                                </li>
+                                                <li>Twitter:
+                                                    <a href="https://twitter.com/Carlillo">https://twitter.com/Carlillo</a>
+                                                </li>
+                                                <li>Github:
+                                                    <a href="https://github.com/Caballerog">https://github.com/Caballerog</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div style="text-align:left">
+                                        <a href="https://www.twitter.com/carlillo">Carlos Caballero</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="sretch">
+                            <img class="no-border" src="images/logo/angular.svg">
+                        </div>
+                    </div>
+
+                </section>
+
+                <section>
+                    <h2>Contents</h2>
+                    <div class="columns">
+                        <div class="col">
+                            <div class="qrcode" align="center"></div>
+                            <div class="half-size">
+                                <a class="qrcode-link"></a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <ul style="font-size:0.85em">
+                                <li>
+                                    <a href="#/introduction">Introduction</a>
+                                </li>
+
+
+                                <li>
+                                    <a href="#/what">Angular Testing - Workshop</a>
+                                </li>
+                                <ul>
+                                    <li>
+                                        <a href="#/setup">Setup</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/jasmine">Unit Testing With Jasmine</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/basic_components">Basic Components Testing</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/utilities">Angular Testing Utilities</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#/components_services">Testing Components with (Async) Services Dependencies</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/services">Testing Services</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/directives">Testing Directives (hackathon)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/pipes">Testing Pipes (hackathon)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/more">More Testing in Angular</a>
+                                    </li>
+
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+
+            <section id="introduction">
+                <section>
+                    <h2>What is Automated Testing </h2>
+                    <ul>
+                        <li>
+                            <b>Unit Test</b>- tests a specific "unit" of code, isolated from other units of code
+                            <ul>
+                                <li>Fast & reliable, easy to maintain</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Integration Test</b>- tests multiple units of code
+                            <ul>
+                                <li>Fast & reliable, less common generally</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>End to End Test</b>
+                            <ul>
+                                <li>Tests a live, working system. Allows a level of verification not possible with the other
+                                    levels at the expense of speed & reliability</li>
+                            </ul>
+                        </li>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Benefits of Testing</h2>
+                    <ul>
+                        <li>
+                            <b>Documented Intentions</b> - tests say what you want the code to do. They are GUARANTEED to be
+                            up to date. Other docs aren’t</li>
+                        <li>
+                            <b>Improved Design</b> - more time is spent working with the code. Encourages small, decoupled designs,
+                            since they are easier to test.</li>
+                        <li>
+                            <b>Fewer bugs</b> - obviously, the more you test, the fewer bugs you have</li>
+                        <li>
+                            <b>No regressions </b> - after a bug is found, if a test is written, the bug can’t reappear</li>
+                        <li>
+                            <b>Safer refactoring</b> - changing code is safer because tests don’t allow you to break functionality
+                        </li>
+                    </ul>
+                </section>
+            </section>
+
+            <section id="setup" data-background="images/fondos/fondo-before.png">
+                <section>
+                    <div class="title">
+                        <div>
+                            <h2>Setup</h2>
+                        </div>
+                        <div>
+                            <img src="images/intro.svg" />
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Angular CLI</h3>
+                    This project was generated with Angular CLI version 6.0.8.
+                    <h3>Tools Needed</h3>
+                    <ul>
+                        <li>Git</li>
+                        <li>Node (9.x)</li>
+                        <li>npm (5.x)</li>
+                        <li> highly recommend Visual Studio Code:
+                            <a href="https://code.visualstudio.com/" target="_blank">https://code.visualstudio.com/</a>
+                            <ul>
+                                <li>EditorConfig</li>
+                                <li>TSLint</li>
+                                <li>Prettier</li>
+                                <li>Angular Language Service</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Configure Project</h3>
+                    <ul>
+                        <li>fork this repo to your GitHub account</li>
+                        <li>clone your fork locally</li>
+                        <li>inside angular-testing-workshop, install dependencies:
+                            <b>npm install</b>
+                        </li>
+                    </ul>
+                    <h3>Verify</h3>
+                    <ul>
+                        <li>
+                            <b>npm start</b>: should open your browser and display the app.</li>
+                        <li>
+                            <b>npm test</b>: should yield output of test runner (no errors).</li>
+                    </ul>
+
+                    </ul>
+
+                </section>
+            </section>
+            <section id="jasmine" data-background="images/fondos/fondo-variables.png">
+                <section>
+                    <div class="title">
+                        <div>
+                            <h1>Unit Testing With Jasmine</h1>
+                        </div>
+                        <div>
+                            <img src="images/variables.svg" />
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3>Jasmine - I - Suites</h3>
+                    <ul>
+                        <li>A unit testing framework for JavaScript</li>
+                        <li>Standalone, no DOM required</li>
+                        <li>Clean syntax: describe, it, expect</li>
+                        <li>Others: Mocha, QUnit, Jest.</li>
+                    </ul>
+
+                    <div class="columns">
+                        <div class="col">
+                            <pre class="fragment fade-in">
+                                <code class="language-javascript" data-trim contenteditable>
+                                        const SuperAwesomeModule = {
+                                            featureA: () => {
+                                              ...
+                                            },
+                                            featureB: () => {
+                                              ...
+                                            }
+                                          }
+                                </code>
+                            </pre>
+                        </div>
+                        <div class="col">
+                            <pre class="fragment fade-in height-code">
+                                <code class="language-javascript" data-trim contenteditable>
+                                        describe('SuperAwesomeModule', () => {
+                                            describe('featureA', () => {
+                                          
+                                            });
+                                          
+                                            describe('featureB', () => {
+                                          
+                                            });
+                                          });
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3>Jasmine - II - Specs</h3>
+                    <ul>
+                        <li>call global Jasmine function it (string, fn)</li>
+                        <li>a spec contains one or more expectations</li>
+                        <li>expectation: an assertion that is either true or false.</li>
+                        <li>spec with all true expectations: pass</li>
+                        <li>spec with one or more false expectations: fail</li>
+                    </ul>
+                    <pre class="">
+                        <code class="language-javascript" data-trim contenteditable>
+                                describe('SuperAwesomeModule', () => {
+                                    describe('featureA', () => {
+                                      it('should calculate some super awesome calculation', () => {
+                                          expect(SuperAwesomeModule.featureA([1, 2, 4]).toEqual(7);
+                                      });
+                                  
+                                      it('should also do this correctly', () => {
+                                          expect(SuperAwesomeModule.featureB('...').toBe(true);
+                                      });
+                                    });
+                                  });
+                            </code>
+                        </pre>
+
+                </section>
+                <section>
+                    <h3>Jasmine - III - Included Matchers</h3>
+
+                    <div class="columns">
+                        <div class="col">
+                            <pre>
+                                        <code class="language-javascript" data-trim contenteditable>
+                                                expect(foo).toBe(true); // uses JS strict equality
+                                                expect(foo).not.toBe(true);
+                                                expect(foo).toEqual(482); // uses deep equality
+                                                expect(foo).toBeDefined();
+                                                expect(foo).not.toBeDefined();
+                                                expect(foo).toBeUndefined();
+                                                expect(foo).toBeTruthy(); // boolean cast testing
+                                                expect(foo).toBeFalsy();
+                                                expect(foo).toContain('student'); // find item in array
+                                                expect(e).toBeLessThan(pi);
+                                                expect(pi).toBeGreaterThan(e);
+                                                expect(a).toBeCloseTo(b, 2); // a to be close to b by 2 decimal points
+                                        </code>
+                                    </pre>
+                        </div>
+                        <div class="col">
+                            <pre class="fragment fade-in height-code">
+                                        <code class="language-javascript" data-trim contenteditable>
+                                                expect(() => {
+                                                    foo(1, '2')
+                                                  }).toThrowError();
+                                                  
+                                                  expect(() => {
+                                                    foo(1, '2')
+                                                  }).toThrow(new Error('Invalid parameter type.')
+                                        </code>
+                                    </pre>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section>
+                    <h3>Jasmine - IV - Setup and Teardown</h3>
+                    <pre>
+                                            <code class="language-javascript" data-trim contenteditable>
+                                                    describe('ApiService', function() {
+                                                        const serviceInTest;
+                                                      
+                                                        beforeEach(function() {
+                                                          serviceInTest = new ApiService();
+                                                        });
+                                                      
+                                                        afterEach(function() {
+                                                         ...
+                                                        });
+                                                      
+                                                        it('retrieves data', function() {
+                                                          ...
+                                                        });
+                                                      
+                                                        it('updates data', function() {
+                                                          ...
+                                                        });
+                                                      });
+                                            </code>
+                                        </pre>
+
+                </section>
+
+
+                <section>
+                    <h3>Jasmine - V - Test Doubles</h3>
+                    <small>Use Test Doubles to isolate dependencies</small>
+                    <ul>
+                        <li>
+                            <b>Mocks</b>: objects pre-configured with details of the calls they expect</li>
+                        <li>
+                            <b>Spies</b>: record information about calls</li>
+                        <li>
+                            <b>Stubs</b>: provide canned answers to calls made during the test</li>
+                        <li>
+                            <b>Dummies</b>: objects that are passed around but never actually used.</li>
+                    </ul>
+                    <pre>
+                                                <code class="language-javascript" data-trim contenteditable>
+                                                        describe('SuperAwesomeModule', function() {
+                                                            beforeEach(function() {
+                                                              // track all calls to SuperAwesomeModule.asyncHelperFunction()
+                                                              // and return a mock response
+                                                              spyOn(SuperAwesomeModule, 'asyncHelperFunction').and.returnValue(Promise.resolve(mockData))
+                                                            });
+                                                          
+                                                            describe('featureA', function() {
+                                                              it('should ...', function() {
+                                                                expect(SuperAwesomeModule.featureA(x)).toBe(y);
+                                                          
+                                                                // matchers for spies
+                                                                expect(SuperAwesomeModule.asyncHelperFunction).toHaveBeenCalled();
+                                                              });
+                                                            });
+                                                          });
+                                                          
+                                                </code>
+                                            </pre>
+
+                </section>
+
+                <section>
+                    <h3>Jasmine - VI - Async</h3>
+
+                    <ul>
+                        <li> Adding a done parameter to an it clause makes a spec async</li>
+                        <li>spec will not complete until its done is called.</li>
+                        <li>Default timeout is 5 seconds, can override: jasmine.DEFAULT_TIMEOUT_INTERVAL
+                        </li>
+                    </ul>
+                    <pre>
+                                                    <code class="language-javascript" data-trim contenteditable>
+                                                            it('should do something async', done => {
+                                                                let value;
+                                                                setTimeout(() => value = 42, 100);
+                                                                setTimeout(() => {
+                                                                  expect(value).toBe(42);
+                                                                  done();
+                                                                }, 200);
+                                                                expect(value).toBeUndefined();
+                                                              });
+                                                                                                                           
+                                                    </code>
+                                                </pre>
+
+                </section>
+                <section>
+                    <h3>Jasmine - VII - Exercise</h3>
+                    We will test drive the implementation of a
+                    <b>scoreCalculator </b>function (sums up scores) that satisfies the following:
+
+                    <ul>
+                        <li>should work with one number</li>
+                        <li>should work with more than one score</li>
+                        <li>should treat negative scores as 0</li>
+                        <li> should return zero with empty input</li>
+                    </ul>
+                </section>
+            </section>
+            <section id="basic_components" data-background="images/fondos/fondo-functions.png">
+                <section>
+                    <div class="title">
+                        <div>
+                            <h1>Basic Components Test</h1>
+                        </div>
+                        <div>
+                            <img src="images/funciones.svg" />
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Basic Components Test - I</h3>
+                    <small>There are 3 standard methods of testing Angular components</small>
+                    <ul>
+                        <li>
+                            <b>Isolated tests</b>: we treat the component class as vanilla JS. Don't render the component.
+                        </li>
+                        <li>
+                            <b>Shallow tests</b>: use the Angular testing utilities to render the component, but don't render
+                            children components.
+                        </li>
+                        <li>
+                            <b>Integration tests</b>: not end-to-end tests here. In this method we render children components
+                            also.
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Basic Components Test - II - Setup</h3>
+                    <small>We first need to import a few of the testing utilities from @angular:</small>
+                    <pre>
+                            <code class="language-javascript" data-trim contenteditable>
+                                    import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+                                    import { MenuComponent } from './menu.component';                                                                                                 
+                            </code>
+                        </pre>
+
+                    <small>We want to configure the testing module
+                    </small>
+                    <div class="columns">
+                        <div class="col">
+                            <pre>
+                                    <code class="language-javascript" data-trim contenteditable>
+                                            let component: MenuComponent;
+                                            let fixture: ComponentFixture< MenuComponent >;
+                                            
+                                            beforeEach(async(() => {
+                                            TestBed.configureTestingModule({
+                                                declarations: [ MenuComponent ]
+                                            })
+                                            .compileComponents();
+                                            }));
+                                    </code>
+                            </pre>
+                            <small>
+                                <ul>
+                                    <li>
+                                        <b>compileComponents(</b>) will ensure that external templates and styles are inlined.
+                                        This is an
+                                        <b>async</b> operation.</li>
+                                </ul>
+                            </small>
+                        </div>
+                        <div class="col">
+                            <pre>
+                                            <code class="language-javascript" data-trim contenteditable>
+                                                    beforeEach(() => {
+                                                        fixture = TestBed.createComponent(MenuComponent);
+                                                        component = fixture.componentInstance;
+                                                        fixture.detectChanges();
+                                                      });
+                                                </code>
+                                                </pre>
+                            <small>
+                                <ul>
+                                    <li>
+                                        <b>fixture</b>: A fixture for debugging and testing a component. Provides access to
+                                        the component instance and also the DebugElement, a handle on the component's DOM
+                                        element.
+                                    </li>
+                                    <li>
+                                        <b>component </b>: The component instance fixture.detectChanges() initializes the component
+                                        (calling ngOnInit()) and runs the change detection cycle.</li>
+                                </ul>
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                </section>
+                <section>
+                    <h3>Basic Components Test - III - First Test</h3>
+                    <pre>
+                            <code class="language-javascript" data-trim contenteditable>
+                                    it('should render two menu items', () => {
+                                        const menuItems = fixture.debugElement.queryAll(By.css('a'));
+                                        expect(menuItems.length).toBe(2);
+                                      });
+                                </code>
+                                </pre>
+                    <small>
+                        Running this, you will get an error:
+                        <b>
+                            <em>Can't bind to 'routerLink' since it isn't a known property of 'a'. Since we aren't importing
+                                the module for routing</em>
+                        </b>, Angular doesn't recognize this directive.
+                    </small>
+
+                    <h4>Shallow test</h4>
+                    <div class="columns">
+                        <div class="col">
+                            <pre>
+                            <code class="language-javascript" data-trim contenteditable>
+                                    import { NO_ERRORS_SCHEMA } from '@angular/core';
+                                </code>
+                                </pre>
+                        </div>
+                        <div class="col">
+                            <pre>
+                                        <code class="language-javascript" data-trim contenteditable>
+                                                schemas: [NO_ERRORS_SCHEMA]
+                                            </code>
+                                            </pre>
+                        </div>
+                    </div>
+                    <h4>Another test</h4>
+                    <pre>
+                            <code class="language-javascript" data-trim contenteditable>
+                           
+                    it('should render a different Dashboard link title', () => {
+                        component.dashboard = 'Spies';
+                    
+                        fixture.detectChanges();
+                    
+                        const dashboardLink = fixture.debugElement.queryAll(By.css('a'))[0];
+                        expect(dashboardLink.nativeElement.textContent).toBe('Spies');
+                      });
+                    </code>
+                    </pre>
+
+                </section>
+            </section>
+
+
+            <section id="utilities" data-background="images/fondos/fondo-exceptions.png">
+                <section>
+                    <div class="title">
+                        <div>
+                            <h1>Angular Testing Utilities</h1>
+                        </div>
+                        <div>
+                            <img src="images/exception.svg" />
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Angular Testing Utilities - I </h3>
+                    <h4>Angular Testing Utilities</h4>
+                    <small>
+                        <ul>
+                            <li>
+                                <b>async() & fakeAsync()</b> - async Zone control
+                            </li>
+                            <li>
+                                <b>TestBed </b>- a harness for compiling modules
+                            </li>
+                            <li>
+                                <b>inject() & TestBed.get </b>- provides access to injectables
+                            </li>
+                        </ul>
+                    </small>
+                    <h4>Component Fixture</h4>
+                    <small>
+                        <ul>
+                            <li>
+                                <b>componentInstance</b> - the instance of the component created by TestBed </li>
+                            <li>
+                                <b>debugElement</b> - provides insight into the component and its DOM element</li>
+                            <li>
+                                <b>nativeElement</b> - the native DOM element at the root of the component</li>
+                            <li>
+                                <b>detectChanges() </b> - trigger a change detection cycle for the component</li>
+                            <li>
+                                <b>whenStable()</b>- returns a promise that resolves when the fixture is stable
+                            </li>
+                        </ul>
+                    </small>
+                    <h4>Debug Elements</h4>
+                    <small>
+                        <ul>
+                            <li>
+                                <b>parent / children</b> - the immediate parent or children of this DebugElement
+                            </li>
+                            <li>
+                                <b>query(predicate)</b> - search for one descendant that matches
+                            </li>
+                            <li>
+                                <b>queryAll(predicate)</b> - search for many descendants that match
+                            </li>
+                            <li>
+                                <b>injector</b> - this component's injector
+                            </li>
+                            <li>
+                                <b>listeners</b>- this callback handlers for this component's events and @Outputs triggerEventHandler(listener)
+                                <!-- - trigger an event or @Output -->
+                            </li>
+                        </ul>
+                    </small>
+                </section>
+
+
+            </section>
+
+
+            <section id="components_services" data-background="images/fondos/fondo-conditionals.png">
+                <section>
+                    <div class="title">
+                        <div>
+                            <h2>Testing Components with (Async) Services Dependencies</h2>
+                        </div>
+                        <div>
+                            <img src="images/avoid.svg" />
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3>Testing Components with (Async) Services Dependencies - I </h3>
+                    <small>We must specify the injected services in the providers property when configuring the testing module:</small>
+                    <div class="columns">
+                        <div class="col">
+                            <pre class="">
+                                                    <code class="language-javascript" data-trim contenteditable>
+                                                            TestBed.configureTestingModule({
+                                                                declarations: [HeroesComponent],
+                                                                schemas: [NO_ERRORS_SCHEMA],
+                                                                providers: [
+                                                                  {
+                                                                    provide: HeroService,
+                                                                    useValue: mockHeroService,
+                                                                  },
+                                                                ],
+                                                              }).compileComponents();
+                            </code>
+                                                    </pre>
+                        </div>
+                        <div class="col">
+                            <pre class="fragment fade-in height-code">
+                                                                <code class="language-javascript" data-trim contenteditable>
+                                                                        const mockHeroService = {
+                                                                            getHeroes: () => of([]),
+                                                                            addHero: () => {},
+                                                                            delete: () => {},
+                                                                          };
+                    
+                                                                    </code>
+                                                                </pre>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="columns">
+                        <div class="col">
+                            <pre class="">
+                                                <code class="language-javascript" data-trim contenteditable>
+                                                        let component: HeroesComponent;
+                                                        let fixture: ComponentFixture< HeroesComponent >;
+                                                        let heroService: HeroService;                             </code>
+                                                </pre>
+                        </div>
+                        <div class="col">
+                            <pre class="fragment fade-in height-code">
+                                                            <code class="language-javascript" data-trim contenteditable>
+                                                                    beforeEach(() => {
+                                                                        fixture = TestBed.createComponent(HeroesComponent);
+                                                                        heroService = fixture.debugElement.injector.get(HeroService);
+                                                                        component = fixture.componentInstance;
+                                                                        fixture.detectChanges();
+                                                                      });
+                                                                
+                
+                                                                </code>
+                                                            </pre>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3>Testing Components with (Async) Services Dependencies - II </h3>
+
+
+                    Suppose one of your components method performs async work:
+
+                    <pre class="">
+                            <code class="language-javascript" data-trim contenteditable>
+                                    ngOnInit() {
+                                        this.getHeroes();
+                                      }
+                                    
+                                      getHeroes(): void {
+                                        this.heroService.getHeroes().subscribe(heroes => (this.heroes = heroes));
+                                      }                                           
+                                </code>
+                            </pre> You should first spy on the service mock and return a response:
+
+                    <pre class="">
+                            <code class="language-javascript" data-trim contenteditable>
+                                    spyOn(heroService, 'getHeroes').and.returnValue(of(mockHeroes));                              
+                                </code>
+                            </pre> Then, there are two methods of testing this:
+                    <ul>
+                        <li>use
+                            <b>async</b> and
+                            <b>fixture.whenStable</b>
+                        </li>
+                        <li>use
+                            <b>fakeAsync</b> and
+                            <b>tick</b>
+                        </li>
+                    </ul>
+
+                </section>
+                <section>
+                    <h3>Testing Components with (Async) Services Dependencies - III - async()</h3>
+                    <ul>
+                        <li>
+                            Use the async testing utility which becomes the second argument to the
+                            <b>it</b> call.
+                        </li>
+                        <li>
+
+                            You must then uses the fixture's
+                            <b>whenStable </b>method which returns a promise when all async work within this test is complete.
+                        </li>
+                    </ul>
+
+                    <pre class="">
+                            <code class="language-javascript" data-trim contenteditable>
+                    it("should assign the heroes' list to the variable (using async) ", async (() => {
+                        //Arreange
+                        spyOn(heroService, 'getHeroes').and.returnValue(of(mockHeroes));
+                  
+                        //Act
+                        component.getHeroes();
+                  
+                        //Asserts
+                        fixture.whenStable().then(() => {
+                          expect(component.heroes).toBe(mockHeroes);
+                        });
+                      }));
+                      </code>
+                      </pre>
+
+
+                </section>
+
+
+                <section>
+                    <h3>Testing Components with (Async) Services Dependencies - IV - fakeAsync</h3>
+
+                    It allows you to write a test in a more linear fashion:
+                    <pre class="">
+                            <code class="language-javascript" data-trim contenteditable>
+                    it('...', fakeAsync(() => {
+                      spyOn(heroService, 'getHeroes').and.returnValue(of(mockHeroes));
+                    
+                      component.ngOnInit();
+                    
+                      flush(); // "flushes" asynchronous tasks
+                    
+                      expect(...).toEqual(...);
+                    }));
+                    </code>
+                    </pre> If you need fine time control, the
+                    <b>tick</b> function simulates the passage of time, and it can take in an optional argument of milliseconds.
+
+
+                </section>
+
+            </section>
+
+            <section id="services" data-background="images/fondos/fondo-async.png">
+                <section>
+                    <div class="title">
+                        <div>
+                            <h1>Services</h1>
+                        </div>
+                        <div>
+                            <img src="images/async.svg" />
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Services - I </h3>
+
+                    <ul>
+                        <li>
+                            When it comes to testing services in Angular, you could write isolated tests (no Angular testing utilities).
+                        </li>
+                        <li>
+                            Shallow tests using Angular utilities like the
+                            <b>TestBed</b> and the
+                            <b>inject</b> function.
+                        </li>
+                    </ul>
+
+                    <div class="columns">
+                        <div class="col">
+                            <pre class="">
+                                                        <code class="language-javascript" data-trim contenteditable>
+                                                                  it('should be created', inject([HeroService], (service: HeroService) => {
+                                                                    expect(service).toBeTruthy();
+                                                                  }));
+                                                            </code>
+                                                        </pre>
+                        </div>
+                        <div class="col">
+                            <pre class="fragment">
+                                <code class="language-javascript" data-trim contenteditable>
+                                        beforeEach(inject(
+                                            [HeroService, HttpClient, MessageService],
+                                            (_heroService: HeroService, 
+                                            _httpService: HttpClient, 
+                                            _messageService: MessageService) => {
+                                              heroService = _heroService;
+                                              httpService = _httpService;
+                                              messageService = _messageService;
+                                            },
+                                          ));
+                                                                        </code>
+                                                                    </pre>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section>
+                    <h3>Services - II </h3>
+                    <small>Spies and Observables</small>
+                    <div class="columns">
+                        <div class="col">
+                            <pre class="">
+                                                            <code class="language-javascript" data-trim contenteditable>
+                                                                    describe('#getHeroes',() => {
+                                                                        it('should return heroes from backend getHeroes', () => {
+                                                                          const heroesUrl = 'api/heroes';
+                                                                          const message = 'HeroService: fetched heroes';
+                                                                          spyOn(httpService, 'get').and.returnValue(of(true));
+                                                                          spyOn(messageService, 'add');
+                                                                    
+                                                                          heroService.getHeroes().subscribe();
+                                                                    
+                                                                          expect(httpService.get).toHaveBeenCalledWith(heroesUrl);
+                                                                          expect(messageService.add).toHaveBeenCalledWith(message);
+                                                                        });
+                                                                        it('should catchError when an error is provoked', () => {
+                                                                          const heroesUrl = 'api/heroes';
+                                                                          const message = 'HeroService: getHeroes failed: undefined';
+                                                                          spyOn(httpService, 'get').and.returnValue(_throw(3));
+                                                                          spyOn(messageService, 'add');
+                                                                    
+                                                                          heroService.getHeroes().subscribe();
+                                                                    
+                                                                          expect(httpService.get).toHaveBeenCalledWith(heroesUrl);
+                                                                          expect(messageService.add).toHaveBeenCalledWith(message);
+                                                                        });
+                                                                      });</code></pre>
+                        </div>
+                        <div class="col">
+                            <pre class="">
+                                    <code class="language-javascript" data-trim contenteditable>
+                    getHeroes(): Observable< Hero[] > {
+                        return this.http.get< Hero[] >(this.heroesUrl).pipe(
+                            tap(heroes => this.log('fetched heroes')),
+                            catchError(this.handleError('getHeroes', [])),
+                        );
+                    }
+                    private log(message: string) {
+                        this.messageService.add(`HeroService: ${message}`);
+                    }
+                    private handleError< T >(operation = 'operation', result?: T){
+                        return (error: any): Observable< T > => {
+                            // TODO: send the error to remote logging infrastructure
+                            console.error(error); // log to console instead
+                    
+                            // TODO: better job of transforming error for user consumption
+                            this.log(`${operation} failed: ${error.message}`);
+                    
+                            // Let the app keep running by returning an empty result.
+                            return of(result as T);
+                        };
+                    }
+                    </code></pre>
+                        </div>
+                    </div>
+
+                </section>
+            </section>
+
+
+
+            <section id="directives" data-background="images/fondos/fondo-testing.png">
+                <section>
+                    <div class="title">
+                        <div>
+                            <h1>Testing Directives (hackathon)</h1>
+                        </div>
+                        <div>
+                            <img src="images/testing.svg" />
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <h3>MyDirective: Hackathon </h3>
+                        <small>
+                            <ul>
+                                <li>
+                                    An attribute directive is used to modify behavior of an existing element or component. </li>
+                                <li>Suppose we have a directive that can be added to an input element to prevent numeric input.
+                                </li>
+                                <li>We can easily achieve this using a @HostListener and listening for the keydown event.
+                                </li>
+                            </ul>
+                        </small>
+                        <div class="columns">
+                            <div class="col">
+                                <pre>
+                                <code class="language-javascript" data-trim contenteditable>
+                                        import { Directive, HostListener, ElementRef } from '@angular/core';
+
+                                        @Directive({
+                                          selector: '[myDirective]',
+                                        })
+                                        export class myDirective {
+                                          constructor(private element: ElementRef) {}
+                                        
+                                          @HostListener('keydown', ['$event'])
+                                          onKeydown(event) {
+                                            const numberRegex = /[0-9]/;
+                                        
+                                            if (numberRegex.test(event.key)) {
+                                              event.preventDefault();
+                                            }
+                                          }
+                                        }
+                                </code>
+                            </pre>
+                            </div>
+                            <div class="col">
+                                <pre>
+                                    <code>
+< input myDirective type="text" placeholder="Search..." >
+                            </code>
+                        </pre>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3>MyDirective: Hackathon </h3>
+                    A test host component can look like this:
+                    <pre>
+                                <code>
+                        @Component({
+                          template: `< input myDirective type="text"/>
+                                     < textarea myDirective></textarea>`
+                        })
+                        class TestHostComponent {
+                        }
+                        </code>
+                        </pre>
+                    <small>When testing this, we can use the
+                        <b>debugElement</b> and
+                        <b>By</b> to query for the input.
+                        <b>DebugElements</b> have a useful
+                        <b>triggerEventHandler</b> that you can call. In this case, we would trigger the keydown event.</small>
+                    <h4>Tasks:</h4>
+                    <small>
+                        <ul>
+                            <li>
+                                <b>should allow regular text input</b>: You should query for the
+                                <b>input</b> element, and trigger the
+                                <b>keydown</b>
+                                event handler.
+                                <ul>
+                                    <li>Create a mock event, and call
+                                        <b>input.triggerEventHandler('keydown', event).</b>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>should not allow numeric text input for input elements</b>: Similar setup to the first one,
+                                except the event's key property should be a string containing a number
+                            </li>
+                            <li>
+                                <b>should allow regular text input for textarea elements</b>
+                            </li>
+                            <li>
+                                <b>should not allow numeric text input for textarea elements</b>
+                            </li>
+
+
+                        </ul>
+                    </small>
+                </section>
+            </section>
+
+            <section id="pipes" data-background="images/fondos/fondo-xp.png">
+                <section>
+                    <div class="title">
+                        <div>
+                            <h1>Testing Pipes (hackathon)</h1>
+                        </div>
+                        <div>
+                            <img src="images/xp.svg" />
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Testing Pipes (hackathon)</h3>
+                    <ul>
+                        <li>
+                            There is really no set up as we are writing vanilla jasmine tests.
+
+                        </li>
+                        <li>
+                            You should write these kind of isolated tests for both services and pipes.
+                        </li>
+                    </ul>
+                    <div class="columns">
+                        <div class="col">
+                            <pre>
+                            <code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'uppercase'
+})
+export class UppercasePipe implements PipeTransform {
+
+    transform(input: string): any {
+    return input.toUpperCase();
+    }
+
+}
+                    </code>
+                    </pre>
+                        </div>
+                        <div class="col">
+                            <pre><code>
+import { UppercasePipe } from './uppercase.pipe';
+
+describe('UppercasePipe', () => {
+  let pipe: UppercasePipe;
+
+  beforeEach(() => {
+    pipe = new UppercasePipe();
+  });
+
+  it('creates an instance', () => {
+    expect(pipe).toBeTruthy();
+  });
+
+  it('transforms input string to uppercase', () => {
+    expect(pipe.transform('angular rocks!')).toBe('ANGULAR ROCKS!');
+  });
+});
+</code>
+</pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Testing Pipes (hackathon)</h3>
+                    <h4>Task</h4>
+                    <small>
+                        <ul>
+                            <li>Transform an input ISO date string and return a "short date" format.</li>
+                            <li>'1960-06-01T11:01:12.720Z' ----> '06/01/1960, 11:01am'</li>
+                            <li>
+                                <b>Complete the following tests:</b>
+
+                                <ul>
+                                    <li>creates an instance</li>
+                                    <li>should not throw error</li>
+                                    <li>returned value should contain date format dd/mm/yyyy</li>
+                                    <li>returned value should contain time hh:mm[am|pm]</li>
+                                    <li>should convert ISO string to correct date format (am)</li>
+                                    <li>should convert ISO string to correct date format (pm)</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>Examples</b>
+
+                                <ul>
+                                    <li>'1972-08-23T15:22:34.694Z' ----> '06/01/1960, 11:01am'</li>
+                                    <li>'1980-10-04T21:35:51.869Z' ----> '10/04/1980, 09:35pm'</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </small>
+                </section>
+            </section>
+
+            <section id="more">
+                <h3>More more more more ...</h3>
+                <ul>
+                    <li>
+                        Testing Components With I/O and Change Detection
+                    </li>
+                    <li>
+                        Routed Components (hackathon)
+                    </li>
+                    <li>
+                        Test e2e
+                    </li>
+                    <li>
+                        Test Ngrx:
+                        <ul>
+                            <li>Actions</li>
+                            <li>Reducers</li>
+                            <li>Selectors</li>
+                            <li>Effects</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+
+
+            <!-- =================== END =================== -->
+            <section>
+                <h2>Thank You</h2>
+                <div class="columns">
+                    <div class="col">
+                        <div class="qrcode" align="center"></div>
+                        <div class="half-size">
+                            <a class="qrcode-link"></a>
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <img class="plain" src="images/heroes/heroes10.gif" width="100%" />
+
+                        <p>
+                            By
+                            <a title="Visit me on Github" href="https://github.com/ccaballerog">Carlos Caballero</a>
+                        </p>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- QR Codes -->
+    <script type="text/javascript">
+        // Get presentation URL
+        var qrcode_url = "https://github.com/caballerog/angular-testing-workshop";
+        if (!/^(localhost|127\.0\.1\.1|)$/.test(location.hostname)) {
+            // host is not localhost, get dynamic URL
+            //keep it simple
+            //qrcode_url = window.location.href;
+            console.log("host is not local, dynamic url: " + window.location.href);
+        }
+
+        // Generate QR Codes : class="qrcode"
+        var qrcode_elements = document.getElementsByClassName('qrcode');
+        for (var i = 0; i < qrcode_elements.length; i++) {
+            var qrcode_el = qrcode_elements[i];
+
+            var qrcode = new QRCode(qrcode_el, {
+                text: qrcode_url,
+                width: 350,
+                height: 350
+            });
+
+            // Alter generated image
+            var img_el = qrcode._el.childNodes[1];
+            img_el.classList.add("plain"); // remove border
+        }
+
+        // Add text to links : class="qrcode-link"
+        var qrcode_link_elements = document.getElementsByClassName('qrcode-link');
+        for (var i = 0; i < qrcode_link_elements.length; i++) {
+            var link_el = qrcode_link_elements[i];
+            link_el.textContent = qrcode_url;
+            link_el.href = qrcode_url;
+        }
+    </script>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+            /*            width: 1280,
+                       height: 700, */
+            width: "100%",
+            height: "100%",
+            /*           width: "100%",
+                      height: "100%",
+                      margin: 0,
+                      minScale: 1,
+                      maxScale: 1, */
+            dependencies: [
+                { src: 'plugin/markdown/marked.js' },
+                { src: 'plugin/markdown/markdown.js' },
+                { src: 'plugin/notes/notes.js', async: true },
+                { src: 'plugin/zoom-js/zoom.js', async: true },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+            ]
+        });
+    </script>
+
+</body>
+
+</html>
